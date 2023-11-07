@@ -1,0 +1,225 @@
+<!-- BEGIN LOADER -->
+<div id="load_screen" *ngIf="showLoader">
+    <div class="loader">
+        <div class="loader-content">
+            <div class="spinner-grow align-self-center"></div>
+        </div>
+    </div>
+</div>
+<!--  END LOADER -->
+<div class="container">
+    <div class="row layout-top-spacing" id="cancel-row">
+        <div id="wizard_Default" class="col-lg-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Create Bot</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <div class="bs-stepper stepper-form-one" id="createBotStepper">
+                        <div class="bs-stepper-header" role="tablist">
+                            <div class="step" data-target="#defaultStep-one">
+                                <button type="button" class="step-trigger" role="tab">
+                                    <span class="bs-stepper-circle">1</span>
+                                    <span class="bs-stepper-label">Personalty</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                            <div class="step" data-target="#defaultStep-two">
+                                <button type="button" class="step-trigger" role="tab">
+                                    <span class="bs-stepper-circle">2</span>
+                                    <span class="bs-stepper-label">Profile pic</span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                            <div class="step" data-target="#defaultStep-three">
+                                <button type="button" class="step-trigger" role="tab">
+                                    <span class="bs-stepper-circle">3</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Bot Details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line"></div>
+                            <div class="step" data-target="#defaultStep-four">
+                                <button type="button" class="step-trigger" role="tab">
+                                    <span class="bs-stepper-circle">4</span>
+                                    <span class="bs-stepper-label">Bot Traning</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bs-stepper-content">
+                            <form [formGroup]="createBotFormGroup">
+                                <div id="defaultStep-one" class="content" role="tabpanel" formGroupName="personal_details">
+                                    <div class="row mb-4">
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Personality Type*</label>
+                                            <select id="defaultInputState" class="form-select" formControlName="personality_type">
+                                                <option selected="">Choose...</option>
+                                                <option *ngFor="let group of personalityType" [value]="group.value">
+                                                    {{group.name}}
+                                                    <small>({{group.value}})</small>
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <label for="defaultInputState" class="form-label">Collar Size*</label>
+                                            <select id="defaultInputState" class="form-select" formControlName="clothing_size">
+                                                <option selected="">Choose...</option>
+                                                <option *ngFor="let collar of collarSize" [value]="collar.size">
+                                                    {{collar.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Color*</label>
+                                            <input type="text" class="form-control" placeholder="Color" formControlName="favorite_color">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Bust Size*</label>
+                                            <input type="text" class="form-control" placeholder="Bust Size(cm)" formControlName="bust_size">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Waist Size*</label>
+                                            <input type="text" class="form-control" placeholder="Waist Size(cm)" formControlName="waist_size">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Hip Size*</label>
+                                            <input type="text" class="form-control" placeholder="Hip size(cm)" formControlName="hip_size">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Shoe Size*</label>
+                                            <input type="text" class="form-control" placeholder="Shoe Size(cm)" formControlName="shoe_size">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Weight*</label>
+                                            <input type="text" class="form-control" placeholder="Weight(kg)" formControlName="weight">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Height*</label>
+                                            <input type="text" class="form-control" placeholder="Height(cm)" formControlName="height">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">BirthDay*</label>
+                                            <input type="text" class="form-control" mwlFlatpickr [altInput]="true" [convertModelValue]="true" formControlName="birthday">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Shoulder Size*</label>
+                                            <input type="text" class="form-control" placeholder="Shoulder Size(cm)" formControlName="shoulder_size">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Voice*</label>
+                                            <select id="defaultInputState" class="form-select" formControlName="voice">
+                                                <option selected="" value="empty">Choose...</option>
+                                                <option *ngFor="let voice of voicesList" [value]="voice.voice_id">
+                                                    {{voice.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 mt-3" *ngIf="audioTrack && showPlayer" [innerHTML]="audioPlayer">
+                                            <!-- <audio class="w-100" id="myAudio" controls style="background: #052c65 !important;">
+                                                <source [(src)]="audioTrack.url" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio> -->
+                                        </div>
+                                        <hr>
+                                    </div>
+
+                                    <div class="button-action mt-5">
+                                        <button class="btn btn-secondary btn-nxt" (click)="stepperNext()">Next</button>
+                                    </div>
+                                </div>
+                                <div id="defaultStep-two" class="content" role="tabpanel">
+                                    <div class="row layout-top-spacing">
+                                        <div id="fuSingleFile" class="col-lg-12 layout-spacing">
+                                            <div class="statbox widget box box-shadow">
+                                                <div class="profile-image">
+                                                    <div class="img-uploader-content">
+                                                        <file-pond #myPond [options]="pondOptions" [files]="pondFiles" (oninit)="pondHandleInit()" (onaddfile)="pondHandleAddFile($event)">
+                                                        </file-pond>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="button-action mt-5">
+                                        <button class="btn btn-secondary btn-prev me-3" (click)="stepperPrevious()">Prev</button>
+                                        <button class="btn btn-secondary btn-nxt" (click)="stepperNext()">Next</button>
+                                    </div>
+                                </div>
+                                <div id="defaultStep-three" class="content" role="tabpanel">
+                                    <div class="row mb-4">
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Bot Name*</label>
+                                            <input type="text" class="form-control" placeholder="Bot Name" formControlName="bot_name">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Bot User Name*</label>
+                                            <input type="text" class="form-control" placeholder="Bot User Name" formControlName="bot_username" *ngIf="!isEdit">
+                                            <input type="text" class="form-control" placeholder="Bot User Name" formControlName="bot_username" readonly *ngIf="isEdit">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="defaultInputState" class="form-label">Bot Type*</label>
+                                            <select id="defaultInputState" class="form-select" formControlName="bot_type">
+                                                <option selected="">Choose...</option>
+                                                <option *ngFor="let type of botType">{{type.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label for="defaultInputState" class="form-label">About Bot*</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Sample text" formControlName="about"></textarea>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="defaultInputState" class="form-label">Bot Discription*</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Sample text" formControlName="description"></textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label for="defaultInputState" class="form-label">Bot Command*</label>
+                                            <input type="text" class="form-control" placeholder="Bot Command" formControlName="bot_admin_command">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="defaultInputState" class="form-label">Bot Command
+                                                Discription*</label>
+                                            <input type="text" class="form-control" placeholder="Bot Command Discription" formControlName="bot_admin_command_description">
+                                        </div>
+                                    </div>
+                                    <div class="button-action mt-3">
+                                        <button class="btn btn-secondary btn-prev me-3" (click)="stepperPrevious()">Prev</button>
+                                        <button class="btn btn-secondary btn-nxt" (click)="stepperNext()">Next</button>
+                                    </div>
+                                </div>
+                                <div id="defaultStep-four" class="content" role="tabpanel">
+                                    <div class="row mb-4">
+                                        <div class="col-md-12">
+                                            <label for="defaultInputState" class="form-label">Traning Model*</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="15" placeholder="Sample text" formControlName="training_model"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="button-action">
+                                        <button class="btn btn-secondary btn-prev me-3" (click)="stepperPrevious()">Prev</button>
+                                        <button class="btn btn-success me-3" *ngIf="!isEdit" [disabled]="!this.createBotFormGroup.valid" (click)="stepperSubmit()">Submit</button>
+                                        <button class="btn btn-success me-3" *ngIf="isEdit" [disabled]="!this.createBotFormGroup.valid" (click)="stepperUpdateSubmit()">Submit</button>
+                                        <!-- <button class="btn btn-success me-3" (click)="updateBot()">Update</button> -->
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

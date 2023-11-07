@@ -1,0 +1,58 @@
+<div class="layout-px-spacing">
+
+    <div class="middle-content p-0">
+        <div class="faq">
+
+            <div class="faq-layouting layout-spacing">
+
+                <div class="fq-tab-section">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                            <h2 class="finance-h">Change your <span class="text-color">price plan</span></h2>
+
+                            <div class="row">
+                                <div class="summary layout-spacing ">
+                                    <div class="widget-content widget-content-area">
+                                        <div class="order-summary">
+                                            <div class="summary-list summary-income" *ngFor="let category of categoryList">
+
+                                                <div class="summery-info">
+
+                                                    <div class="w-icon">
+                                                        <svg style="fill: #009688;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M320 0c17.7 0 32 14.3 32 32V96H472c39.8 0 72 32.2 72 72V440c0 39.8-32.2 72-72 72H168c-39.8 0-72-32.2-72-72V168c0-39.8 32.2-72 72-72H288V32c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H208zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H304zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H400zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224H64V416H48c-26.5 0-48-21.5-48-48V272c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48v96c0 26.5-21.5 48-48 48H576V224h16z"/></svg>
+                                                    </div>
+
+                                                    <div class="w-summary-details">
+
+                                                        <div class="w-summary-info">
+                                                            <div class="col-md-4">
+                                                                <label for="company-phone" class="col-sm-3 col-form-label col-form-label-sm mt-1">{{category.category}}</label>
+                                                            </div>
+                                                            <div class="col-md-4 w-50">
+                                                                <input type="text" class="form-control form-control-sm w-50 border-color mt-1" id="company-name" placeholder="$ ..." [(ngModel)]="category.minutes_per_dollar">
+                                                            </div>
+                                                            <div class="col-md-4 w-50 d-flex p-2">
+                                                                <a (click)="updatePrice(category)" matTooltip="Save Price" class="badge badge-light-success text-start action-delete badge-color" href="javascript:void(0);"><svg style="fill: #fefefe;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M48 96V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V170.5c0-4.2-1.7-8.3-4.7-11.3l33.9-33.9c12 12 18.7 28.3 18.7 45.3V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96C0 60.7 28.7 32 64 32H309.5c17 0 33.3 6.7 45.3 18.7l74.5 74.5-33.9 33.9L320.8 84.7c-.3-.3-.5-.5-.8-.8V184c0 13.3-10.7 24-24 24H104c-13.3 0-24-10.7-24-24V80H64c-8.8 0-16 7.2-16 16zm80-16v80H272V80H128zm32 240a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/></svg></a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

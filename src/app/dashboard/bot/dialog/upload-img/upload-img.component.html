@@ -1,0 +1,41 @@
+<!-- BEGIN LOADER -->
+<div id="load_screen" *ngIf="showLoader">
+    <div class="loader">
+        <div class="loader-content">
+            <div class="spinner-grow align-self-center"></div>
+        </div>
+    </div>
+</div>
+<!--  END LOADER -->
+<div mat-dialog-content class="modal model-settin">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Spicy Images</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" mat-dialog-close>
+                    <svg> ... </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4" [formGroup]="spacyTagForm">
+                    <div class="col-12">
+                        <label for="defaultInputState" class="form-label">Spicy Tags</label>
+                        <input type="text" class="form-control" placeholder="sexy,beautiful" formControlName="spacyTags">
+                    </div>
+                </div>
+                <div class="profile-image">
+                    <div class="img-uploader-content">
+                        <file-pond #myPond [options]="pondOptions" [files]="pondFiles" (oninit)="pondHandleInit()" (onaddfile)="pondHandleAddFile($event)">
+                        </file-pond>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="uloadImages()">Upload</button>
+                <button class="btn btn btn-light-dark" data-bs-dismiss="modal" mat-dialog-close><i
+                        class="flaticon-cancel-12"></i>
+                    Close</button>
+            </div>
+        </div>
+    </div>
+</div>

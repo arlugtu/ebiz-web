@@ -1,0 +1,150 @@
+<!-- BEGIN LOADER -->
+<div id="load_screen" *ngIf="showLoader">
+    <div class="loader">
+        <div class="loader-content">
+            <div class="spinner-grow align-self-center"></div>
+        </div>
+    </div>
+</div>
+<!--  END LOADER -->
+<div class="layout-boxed">
+    <div class="layout-px-spacing">
+        <div class="middle-content container-xxl p-0">
+            <div class="row layout-top-spacing">
+                <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="widget-content widget-content-area br-8">
+                        <div class="dt--top-section">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
+                                    <div class="dataTables_length" id="zero-config_length"><label
+                                            class="lable-class">Page Size :
+                                            <select name="zero-config_length" aria-controls="zero-config"
+                                                class="form-control" [(ngModel)]="pageSize" (change)="paginationButtonClick(currentPage, pageSize)">
+                                                <option value="10">10</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select></label></div>
+                                </div>
+                                <div
+                                    class="col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3">
+                                    <div id="zero-config_filter" class="dataTables_filter"><label
+                                            class="search-lable"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-search svg-position">
+                                                <circle cx="11" cy="11" r="8"></circle>
+                                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                            </svg><input type="search" class="form-control search-input"
+                                                placeholder="Search..." aria-controls="zero-config"></label></div>
+                                </div>
+                            </div>
+                        </div>
+                        <table id="zero-config" class="table table-striped dt-table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Total Credited</th>
+                                    <th>Remaining Credit</th>
+                                    <th>Registered Date</th>
+                                    <th class="no-content">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of allUsers.result">
+                                    <td>
+                                        <div class="d-flex">
+                                            <!-- <div class="usr-img-frame me-2 rounded-circle">
+                                                <img alt="avatar" class="img-fluid rounded-circle" src="../../../../../assets/img/user-profile.jpeg">
+                                            </div> -->
+                                            <p class="align-self-center mb-0 admin-name">{{user.display_name}}</p>
+                                        </div>
+                                    </td>
+                                    <td><a href="{{teligramLink}}{{user.username}}"
+                                            target="_blank">@{{user.username}}</a></td>
+                                    <td>$ {{user.total_credit}}</td>
+                                    <td>$ {{user.remaining_credit}}</td>
+                                    <td>{{user.registered_date | date: 'dd/MM/YYYY'}}</td>
+                                    <td class="svg-icons">
+                                        <a href="javascript:void(0)" [routerLink]="['/dashboard/user/bot-list']"
+                                            [queryParams]="{userId: user.user_id}" matTooltip="View Bot List"><svg
+                                                style="fill: #4361ee;" xmlns="http://www.w3.org/2000/svg" height="1em"
+                                                viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                                <path
+                                                    d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
+                                            </svg></a>
+                                        <a href="javascript:void(0)" matTooltip="Click to Deactivate"
+                                            (click)="verifyBox()"><svg style="fill: #e2a03f;"
+                                                xmlns="http://www.w3.org/2000/svg" height="1em"
+                                                viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                                <path
+                                                    d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7 14.3 32 32 32s32-14.3 32-32V32zM143.5 120.6c13.6-11.3 15.4-31.5 4.1-45.1s-31.5-15.4-45.1-4.1C49.7 115.4 16 181.8 16 256c0 132.5 107.5 240 240 240s240-107.5 240-240c0-74.2-33.8-140.6-86.6-184.6c-13.6-11.3-33.8-9.4-45.1 4.1s-9.4 33.8 4.1 45.1c38.9 32.3 63.5 81 63.5 135.4c0 97.2-78.8 176-176 176s-176-78.8-176-176c0-54.4 24.7-103.1 63.5-135.4z" />
+                                            </svg></a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Total Credited</th>
+                                    <th>Remaining Credit</th>
+                                    <th>Registered Date</th>
+                                    <th class="no-content">Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center">
+                            <div class="dt--pages-count  mb-sm-0 mb-3">
+                                <div class="dataTables_info" id="zero-config_info" role="status" aria-live="polite">
+                                    Showing page {{currentPage}} of {{totalPageCount}}</div>
+                            </div>
+                            <div class="dt--pagination">
+                                <div class="dataTables_paginate paging_simple_numbers" id="zero-config_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous"
+                                            [ngClass]="!hasPrevious ? 'disabled' : ''" id="zero-config_previous"><a
+                                                href="javascript:void(0)"
+                                                (click)="paginationButtonClick((currentPage-1), pageSize)"
+                                                aria-controls="zero-config" data-dt-idx="0" tabindex="0"
+                                                class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-arrow-left">
+                                                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                                                    <polyline points="12 19 5 12 12 5"></polyline>
+                                                </svg></a></li>
+                                        <li *ngFor="let item of [].constructor((totalPageCount)); index as i"
+                                            class="paginate_button page-item"
+                                            [ngClass]="currentPage == (i+1) ? 'active' : ''"><a
+                                                href="javascript:void(0)"
+                                                (click)="paginationButtonClick((i+1), pageSize)"
+                                                aria-controls="zero-config" tabindex="{{i+1}}"
+                                                class="page-link">{{i+1}}</a></li>
+                                        <li class="paginate_button page-item next"
+                                            [ngClass]="!haseNext ? 'disabled' : ''" id="zero-config_next"><a
+                                                href="javascript:void(0)"
+                                                (click)="paginationButtonClick((currentPage+1), pageSize)"
+                                                aria-controls="zero-config" data-dt-idx="4" tabindex="0"
+                                                class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-arrow-right">
+                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                                </svg></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

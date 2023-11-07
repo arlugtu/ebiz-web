@@ -1,0 +1,58 @@
+<div class="layout-px-spacing">
+    <div class="card ">
+        <div class="card-body">
+            <div class="fq-header-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 align-self-center order-md-0 order-1">
+                            <div class="faq-header-content">
+                                <h3 class="mb-4">Upload your spicy photo here</h3>
+                                <form [formGroup]="spacyTagForm">
+                                    <div class="row" [formGroup]="spacyTagForm">
+                                        <div class="col-lg-5 mx-auto">
+                                            <div class="autocomplete-btn">
+                                                <input id="example2"
+                                                    placeholder="Please type comma separated text ex: selfie,general ..."
+                                                    class="form-control" formControlName="spacyTags">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p class="mt-4 mb-0">You can upload multiple images in this section</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-gradient">
+                <div class="card-body">
+                    <div class="faq">
+                        <div class="faq-layouting layout-spacing">
+                            <div class="kb-widget-section">
+                                <div class="row justify-content-center">
+                                    <div class="row">
+                                        <div class="col-md-12 d-flex justify-content-center">
+                                            <div class="col-md-6">
+                                                <file-pond style="width: 245px !important;" #myPond
+                                                    [options]="pondOptions" [files]="pondFiles"
+                                                    (oninit)="pondHandleInit()" (onaddfile)="pondHandleAddFile($event)">
+                                                </file-pond>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 d-flex justify-content-center">
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-primary"
+                                                    [disabled]="!this.spacyTagForm.valid || pondFiles.length == 0"
+                                                    (click)="uloadImages()">Upload images</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
