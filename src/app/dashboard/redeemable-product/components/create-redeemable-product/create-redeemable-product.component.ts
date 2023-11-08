@@ -1,34 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ProductService } from '../../services/product.service';
+import { RedeemableProductService } from '../../services/redeemable-product.service';
 import { CommonService } from 'src/app/common/services/common.service';
 import { NotifService } from 'src/app/common/services/notif.service';
-import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-create-product',
-  templateUrl: './create-product.component.html',
+  selector: 'app-create-redeemable-product',
+  templateUrl: './create-redeemable-product.component.html',
   styleUrls: [
-    './create-product.component.scss',
+    './create-redeemable-product.component.scss',
     '../../../../common/styles/common.scss'
   ],
   providers: [CommonService, NotifService]
 })
-export class CreateProductComponent implements OnInit {
+export class CreateRedeemableProductComponent implements OnInit {
 
   public formGroup: FormGroup;
   public showLoader = false;
 
   public categories: any = [];
   public categoriesJson: any = {};
-  public subcategories: any = [];
-  public subcategoriesJson: any = {};
 
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: ProductService,
+    private service: RedeemableProductService,
     public common: CommonService,
     private notif: NotifService,
     private activateRouter: ActivatedRoute,
@@ -43,11 +40,8 @@ export class CreateProductComponent implements OnInit {
       description: new FormControl('', Validators.required),
       inventory: new FormControl(0, [Validators.required, Validators.pattern('^[0-9]*$'),]),
       points: new FormControl(0, [Validators.required, Validators.pattern(patternNumeric),]),
-      price: new FormControl(0, [Validators.required, Validators.pattern(patternNumeric),]),
       product_id: new FormControl(''),
       product_name: new FormControl('', Validators.required),
-      subcategory_id: new FormControl(''),
-      subcategory_name: new FormControl('', Validators.required),
     });
     if (this.activateRouter.snapshot.queryParams['update']) {
       let docId = this.activateRouter.snapshot.queryParams['id'];
@@ -56,10 +50,7 @@ export class CreateProductComponent implements OnInit {
     }
 
     this.formGroup.controls['category_id'].valueChanges.subscribe((event) => {
-      this.getSubcategory(event);
-    })
-    this.formGroup.controls['subcategory_id'].valueChanges.subscribe((event) => {
-      this.setSubcategory(event);
+      this.setCategory(event);
     })
 
     this.getCategory();
@@ -67,7 +58,7 @@ export class CreateProductComponent implements OnInit {
 
   getCategory() {
     this.showLoader = true;
-    this.common.getData('category').subscribe(
+    this.common.getData('redeemable-category').subscribe(
       response => {
         this.showLoader = false;
         this.categories = response['result'] || [];
@@ -86,35 +77,10 @@ export class CreateProductComponent implements OnInit {
     )
   }
 
-  getSubcategory(id=null) {
+  setCategory(id) {
     let category = this.categoriesJson[id];
     if (category) {
       this.formGroup.get('category_name').setValue(category.category_name);
-    }
-
-    this.common.getData(`subcategory/${id}`).subscribe(
-      response => {
-        this.subcategories = response || [];
-        this.subcategories.forEach((object) => {
-          this.subcategoriesJson[object.subcategory_id] = object;
-        })
-
-        if (this.subcategories.length > 0) {
-          this.formGroup.get('subcategory_id').setValue(this.subcategories[0].subcategory_id);
-        } else {
-          this.formGroup.get('subcategory_name').setValue('');
-        }
-      },
-      error => {
-        this.notif.error('Unable to get subcategory.');
-      }
-    )
-  }
-
-  setSubcategory(id) {
-    let subcategory = this.subcategoriesJson[id];
-    if (subcategory) {
-      this.formGroup.get('subcategory_name').setValue(subcategory.subcategory_name);
     }
   }
 
@@ -124,7 +90,7 @@ export class CreateProductComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.common.createData('product', this.formGroup.value).subscribe(
+    this.common.createData('redeemable-product', this.formGroup.value).subscribe(
       response => {
         this.showLoader = false;
         this.common.back();

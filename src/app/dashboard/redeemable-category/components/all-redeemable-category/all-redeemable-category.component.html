@@ -1,0 +1,37 @@
+<!-- BEGIN LOADER -->
+<div id="load_screen" *ngIf="showLoader">
+  <div class="loader">
+    <div class="loader-content">
+      <div class="spinner-grow align-self-center"></div>
+    </div>
+  </div>
+</div>
+<!--  END LOADER -->
+<div class="layout-boxed layout-px-spacing">
+  <h1 class="layout-top-spacing">Redeemable Category</h1>
+  <div class="row">
+    <div class="col-12 text-end">
+      <button type="button" class="btn btn-success" routerLink="./create">
+        Add
+      </button>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-12">
+      <h6 id="allDataHeader" *ngIf="allData.length == 0"></h6>
+      <div class="card" *ngFor="let data of allData">
+        <div class="card-header">
+          <section class="mb-0 mt-0">
+            <div role="menu" class="d-flex align-items-center place-content-space-between">
+              {{data.category_name}}
+              <button type="button" class="btn btn-sm btn-danger"
+                  (click)="deleteData(data.category_id)">
+                Delete
+              </button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

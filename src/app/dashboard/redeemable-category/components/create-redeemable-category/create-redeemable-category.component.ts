@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CategoryService } from '../../services/category.service';
+import { RedeemableCategoryService } from '../../services/redeemable-category.service';
 import { CommonService } from 'src/app/common/services/common.service';
 import { NotifService } from 'src/app/common/services/notif.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-create-category',
-  templateUrl: './create-category.component.html',
+  selector: 'app-redeemable-create-category',
+  templateUrl: './create-redeemable-category.component.html',
   styleUrls: [
-    './create-category.component.scss',
+    './create-redeemable-category.component.scss',
     '../../../../common/styles/common.scss'
   ],
   providers: [CommonService, NotifService]
 })
-export class CreateCategoryComponent implements OnInit {
+export class CreateRedeemableCategoryComponent implements OnInit {
 
   public formGroup: FormGroup;
   public showLoader = false;
@@ -22,7 +22,7 @@ export class CreateCategoryComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: CategoryService,
+    private service: RedeemableCategoryService,
     public common: CommonService,
     private notif: NotifService,
     private activateRouter: ActivatedRoute,
@@ -33,7 +33,6 @@ export class CreateCategoryComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       category_id: new FormControl(''),
       category_name: new FormControl('', Validators.required),
-      subcategory: [],
     });
     if (this.activateRouter.snapshot.queryParams['update']) {
       let docId = this.activateRouter.snapshot.queryParams['id'];
@@ -48,7 +47,7 @@ export class CreateCategoryComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.common.createData('category', this.formGroup.value).subscribe(
+    this.common.createData('redeemable-category', this.formGroup.value).subscribe(
       response => {
         this.showLoader = false;
         this.common.back();

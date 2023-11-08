@@ -1,26 +1,26 @@
 import { AfterViewInit, Component, OnInit, Inject, ElementRef, AfterViewChecked } from '@angular/core';
-import { CategoryService } from '../../services/category.service';
+import { RedeemableCategoryService } from '../../services/redeemable-category.service';
 import { CommonService } from 'src/app/common/services/common.service';
 import { NotifService } from 'src/app/common/services/notif.service';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 
-export interface CATEGORY {
+export interface REDEEMABLE_CATEGORY {
   category_id: string;
   category_name: string;
 }
 
 @Component({
-  selector: 'app-all-category',
-  templateUrl: './all-category.component.html',
+  selector: 'app-all-redeemable-category',
+  templateUrl: './all-redeemable-category.component.html',
   styleUrls: [
-    './all-category.component.scss',
+    './all-redeemable-category.component.scss',
     '../../../../common/styles/common.scss'
   ],
   providers: [CommonService, NotifService]
 })
-export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class AllRedeemableCategoryComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   public showLoader = false;
   public currentPage = 1;
@@ -33,7 +33,7 @@ export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChe
 
   constructor(
     private router: Router,
-    private service: CategoryService,
+    private service: RedeemableCategoryService,
     public common: CommonService,
     private notif: NotifService,
     @Inject(DOCUMENT) document: Document,
@@ -56,7 +56,7 @@ export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChe
 
   getData() {
     this.showLoader = false;
-    this.common.getData('category').subscribe(
+    this.common.getData('redeemable-category').subscribe(
       response => {
         this.showLoader = false;
         this.allData = response['result'] || [];
@@ -75,52 +75,12 @@ export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChe
   }
 
   deleteData(id) {
-    this.common.deleteData('category', id).subscribe(
+    this.common.deleteData('redeemable-category', id).subscribe(
       response => {
         this.getData();
       },
       error => {
         this.notif.error('Failed to delete category.');
-      }
-    )
-  }
-
-  addSubcategory(data) {
-    let subcategory = document.getElementById(`subcategory-${data.category_id}`);
-    let _data = {
-      category_id: data.category_id,
-      subcategory_name: (subcategory['value'] || '').trim()
-    };
-
-    if (_data.subcategory_name) {
-      this.common.createData('subcategory', _data).subscribe(
-        response => {
-          this.showLoader = false;
-          _data['subcategory_id'] = response['subcategory_id'];
-          data['subcategory'] = data.subcategory || [];
-          data['subcategory'].push(_data);
-          subcategory['value'] = '';
-          this.notif.success();
-        },
-        error => {
-          this.showLoader = false;
-          this.notif.error('Unable to create subcategory.');
-        }
-      );
-    } else {
-      this.notif.error('Please enter a subcategory name.');
-    }
-  }
-
-  deleteSubcategory(data, id) {
-    this.common.deleteData('subcategory', id).subscribe(
-      response => {
-        data['subcategory'] = data.subcategory.filter((object) => {
-          return object.subcategory_id != id;
-        })
-      },
-      error => {
-        this.notif.error('Failed to delete subcategory.');
       }
     )
   }

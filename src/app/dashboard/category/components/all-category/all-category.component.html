@@ -23,11 +23,10 @@
         <div class="card" *ngFor="let data of allData">
           <div class="card-header">
             <section class="mb-0 mt-0">
-              <div role="menu" class="collapsed d-flex align-items-center"
+              <div role="menu" class="collapsed d-flex align-items-center place-content-space-between"
                   data-bs-toggle="collapse" data-bs-target="#defaultAccordionOne"
                   aria-expanded="false" aria-controls="defaultAccordionOne"
-                  style="place-content: space-between;"
-                  (click)="toggleAccordion(data.category_id)">
+                  (click)="common.toggleAccordion(data.category_id)">
                 {{data.category_name}}
                 <button type="button" class="btn btn-sm btn-danger"
                     (click)="$event.stopPropagation(); deleteData(data.category_id);">

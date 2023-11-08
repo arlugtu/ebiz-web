@@ -6,8 +6,7 @@ import { Environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  private productBotApiUrl = Environment.productBotApiUrl;
+export class RedeemableProductService {
 
   constructor(
     private httpClient: HttpClient

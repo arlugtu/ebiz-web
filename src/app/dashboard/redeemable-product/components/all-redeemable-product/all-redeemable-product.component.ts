@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, Inject, ElementRef, AfterViewChecked } from '@angular/core';
-import { ProductService } from '../../services/product.service';
+import { RedeemableProductService } from '../../services/redeemable-product.service';
 import { CommonService } from 'src/app/common/services/common.service';
 import { NotifService } from 'src/app/common/services/notif.service';
 import { Router } from '@angular/router';
@@ -9,29 +9,26 @@ import { DomSanitizer } from '@angular/platform-browser';
 import * as bootstrap from 'bootstrap';
 import * as $ from 'jquery';
 
-export interface PRODUCT {
+export interface REDEEMABLE_PRODUCT {
   category_id: string;
   category_name: string;
   description: string;
   inventory: number;
   points: number;
-  price: number;
   product_id: string;
   product_name: string;
-  subcategory_id: string;
-  subcategory_name: string;
 }
 
 @Component({
   selector: 'app-all-product',
-  templateUrl: './all-product.component.html',
+  templateUrl: './all-redeemable-product.component.html',
   styleUrls: [
-    './all-product.component.scss',
+    './all-redeemable-product.component.scss',
     '../../../../common/styles/common.scss'
   ],
   providers: [CommonService, NotifService]
 })
-export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class AllRedeemableProductComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   public showLoader = false;
   public currentPage = 1;
@@ -48,7 +45,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
 
   constructor(
     private router: Router,
-    private service: ProductService,
+    private service: RedeemableProductService,
     public common: CommonService,
     private notif: NotifService,
     @Inject(DOCUMENT) document: Document,
@@ -70,7 +67,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   getData() {
-    this.common.getData('product').subscribe(
+    this.common.getData('redeemable-product').subscribe(
       response => {
         this.showLoader = false;
         this.allData = response['result'] || [];
@@ -89,7 +86,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   deleteData(id) {
-    this.common.deleteData('product', id).subscribe(
+    this.common.deleteData('redeemable-product', id).subscribe(
       response => {
         this.getData();
       },
@@ -109,7 +106,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   getInventory(id=null) {
-    this.common.getData(`inventory/${id}`).subscribe(
+    this.common.getData(`redeemable-inventory/${id}`).subscribe(
       response => {
         this.inventories = response || [];
       },
@@ -134,7 +131,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
       data.append('files', files[key]);
     })
 
-    this.common.uploadData('inventory-upload', this.docId, data).subscribe(
+    this.common.uploadData('redeemable-inventory-upload', this.docId, data).subscribe(
       response => {
         $('#fileUpload').val('');
         if (response['status'] == 200) {
@@ -154,7 +151,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   downloadFile(id) {
-    this.common.downloadData('inventory-download', id).subscribe(
+    this.common.downloadData('redeemable-inventory-download', id).subscribe(
       response => {
         let url = URL.createObjectURL(response);
         let a = document.createElement('a');
@@ -169,7 +166,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   deleteInventory(id) {
-    this.common.deleteData('inventory', id).subscribe(
+    this.common.deleteData('redeemable-inventory', id).subscribe(
       response => {
         this.inventories = this.inventories.filter((object) => {
           return object.inventory_id != id;
