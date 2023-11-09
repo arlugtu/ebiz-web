@@ -135,7 +135,9 @@ export class AllRedeemableProductComponent implements OnInit, AfterViewInit, Aft
       response => {
         $('#fileUpload').val('');
         if (response['status'] == 200) {
-          $(`#inventory-${this.docId}`).text(response['inventory'] || 0);
+          if (response['inventory'] != undefined) {
+            $(`#inventory-${this.docId}`).text(response['inventory']);
+          }
 
           this.getInventory(this.docId);
           this.notif.success();
@@ -171,9 +173,8 @@ export class AllRedeemableProductComponent implements OnInit, AfterViewInit, Aft
           return object.inventory_id != id;
         })
 
-        if (response) {
-          this.doc['inventory'] = this.doc.inventory - 1;
-          $(`#inventory-${this.docId}`).text(this.doc.inventory);
+        if (response['status'] == 200 && response['inventory'] != undefined) {
+          $(`#inventory-${this.docId}`).text(response['inventory']);
         }
       },
       error => {
