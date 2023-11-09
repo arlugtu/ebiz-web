@@ -138,8 +138,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
       response => {
         $('#fileUpload').val('');
         if (response['status'] == 200) {
-          this.doc['inventory'] = this.doc.inventory + files.length;
-          $(`#inventory-${this.docId}`).text(this.doc.inventory);
+          $(`#inventory-${this.docId}`).text(response['inventory'] || 0);
 
           this.getInventory(this.docId);
           this.notif.success();

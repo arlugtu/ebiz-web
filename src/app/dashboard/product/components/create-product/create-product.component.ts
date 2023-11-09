@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProductService } from '../../services/product.service';
 import { CommonService } from 'src/app/common/services/common.service';
 import { NotifService } from 'src/app/common/services/notif.service';
-import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

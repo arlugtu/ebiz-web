@@ -31,6 +31,14 @@ export class CommonService {
     );
   }
 
+  updateData(url: string, id: string, data: any) {
+    return this.httpClient.put(`${this.productBotApiUrl}/${url}/${id}`, data).pipe(
+      map(response => {
+        return response;
+      })
+    );
+  }
+
   deleteData(url: string, id: string) {
     return this.httpClient.delete(`${this.productBotApiUrl}/${url}/${id}`).pipe(
       map(response => {
