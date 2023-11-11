@@ -109,9 +109,13 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   getInventory(id=null) {
-    this.common.getData(`inventory/${id}`).subscribe(
+    let params = {
+      product_id: id
+    };
+
+    this.common.getData('inventory', params).subscribe(
       response => {
-        this.inventories = response || [];
+        this.inventories = response['result'] || [];
       },
       error => {
         this.notif.error('Unable to get inventory.');
@@ -134,7 +138,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
       data.append('files', files[key]);
     })
 
-    this.common.uploadData('inventory-upload', this.docId, data).subscribe(
+    this.common.uploadData('inventory/upload', this.docId, data).subscribe(
       response => {
         $('#fileUpload').val('');
         if (response['status'] == 200) {
@@ -154,13 +158,13 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
     )
   }
 
-  downloadFile(id) {
-    this.common.downloadData('inventory-download', id).subscribe(
+  downloadFile(id, filename) {
+    this.common.downloadData('inventory/download', id).subscribe(
       response => {
         let url = URL.createObjectURL(response);
         let a = document.createElement('a');
         a.href = url;
-        a.setAttribute('download', 'test.txt');
+        a.setAttribute('download', filename);
         a.click();
       },
       error => {

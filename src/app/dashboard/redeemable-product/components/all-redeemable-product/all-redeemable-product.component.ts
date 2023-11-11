@@ -106,9 +106,13 @@ export class AllRedeemableProductComponent implements OnInit, AfterViewInit, Aft
   }
 
   getInventory(id=null) {
-    this.common.getData(`redeemable-inventory/${id}`).subscribe(
+    let params = {
+      product_id: id
+    };
+
+    this.common.getData('redeemable-inventory', params).subscribe(
       response => {
-        this.inventories = response || [];
+        this.inventories = response['result'] || [];
       },
       error => {
         this.notif.error('Unable to get inventory.');
@@ -131,7 +135,7 @@ export class AllRedeemableProductComponent implements OnInit, AfterViewInit, Aft
       data.append('files', files[key]);
     })
 
-    this.common.uploadData('redeemable-inventory-upload', this.docId, data).subscribe(
+    this.common.uploadData('redeemable-inventory/upload', this.docId, data).subscribe(
       response => {
         $('#fileUpload').val('');
         if (response['status'] == 200) {
@@ -151,13 +155,13 @@ export class AllRedeemableProductComponent implements OnInit, AfterViewInit, Aft
     )
   }
 
-  downloadFile(id) {
-    this.common.downloadData('redeemable-inventory-download', id).subscribe(
+  downloadFile(id, filename) {
+    this.common.downloadData('redeemable-inventory/download', id).subscribe(
       response => {
         let url = URL.createObjectURL(response);
         let a = document.createElement('a');
         a.href = url;
-        a.setAttribute('download', 'test.txt');
+        a.setAttribute('download', filename);
         a.click();
       },
       error => {

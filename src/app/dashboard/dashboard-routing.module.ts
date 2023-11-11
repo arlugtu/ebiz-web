@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { RedeemableCategoryComponent } from './redeemable-category/redeemable-category.component';
 import { RedeemableProductComponent } from './redeemable-product/redeemable-product.component';
+import { TransactionComponent } from './transaction/transaction.component';
 import { BotComponent } from './bot/bot.component';
 import { UserComponent } from './user/user.component';
 import { FinanceComponent } from './finance/finance.component';
@@ -59,6 +60,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./redeemable-product/redeemable-product.module').then(
         (module) => module.RedeemableProductModule
+      ),
+  },
+  {
+    path: 'transaction',
+    component: TransactionComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./transaction/transaction.module').then(
+        (module) => module.TransactionModule
       ),
   },
   {

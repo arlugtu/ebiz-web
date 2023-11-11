@@ -91,9 +91,13 @@ export class CreateProductComponent implements OnInit {
       this.formGroup.get('category_name').setValue(category.category_name);
     }
 
-    this.common.getData(`subcategory/${id}`).subscribe(
+    let params = {
+      category_id: id
+    };
+
+    this.common.getData('subcategory', params).subscribe(
       response => {
-        this.subcategories = response || [];
+        this.subcategories = response['result'] || [];
         this.subcategories.forEach((object) => {
           this.subcategoriesJson[object.subcategory_id] = object;
         })

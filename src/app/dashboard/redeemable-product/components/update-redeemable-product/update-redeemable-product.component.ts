@@ -52,10 +52,14 @@ export class UpdateRedeemableProductComponent implements OnInit {
 
   getData() {
     this.showLoader = true;
-    this.common.getData(`redeemable-product/${this.docId}`).subscribe(
+    let params = {
+      id: this.docId
+    };
+
+    this.common.getData('redeemable-product', params).subscribe(
       response => {
         this.showLoader = false;
-        this.bindingData(response);
+        this.bindingData(response['result'][0]);
       },
       error => {
         this.showLoader = false;

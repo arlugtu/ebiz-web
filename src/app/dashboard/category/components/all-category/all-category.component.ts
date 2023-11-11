@@ -96,7 +96,7 @@ export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChe
       this.common.createData('subcategory', _data).subscribe(
         response => {
           this.showLoader = false;
-          _data['subcategory_id'] = response['subcategory_id'];
+          _data['subcategory_id'] = response['id'];
           data['subcategory'] = data.subcategory || [];
           data['subcategory'].push(_data);
           subcategory['value'] = '';

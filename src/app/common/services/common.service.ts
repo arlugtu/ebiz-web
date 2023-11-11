@@ -23,8 +23,13 @@ export class CommonService {
     );
   }
 
-  getData(url: string, pageNumber: number = 0, pageSize: number = 0) {
-    return this.httpClient.get(`${this.productBotApiUrl}/${url}?page=${pageNumber}&limit=${pageSize}`).pipe(
+  getData(url: string, params: any = {}) {
+    let queryParams = [];
+    Object.keys(params).forEach((key) => {
+      queryParams.push(`${key}=${params[key]}`);
+    })
+
+    return this.httpClient.get(`${this.productBotApiUrl}/${url}?${queryParams.join('&')}`).pipe(
       map(response => {
         return response;
       })

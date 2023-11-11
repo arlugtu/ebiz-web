@@ -55,10 +55,14 @@ export class UpdateProductComponent implements OnInit {
 
   getData() {
     this.showLoader = true;
-    this.common.getData(`product/${this.docId}`).subscribe(
+    let params = {
+      id: this.docId
+    };
+
+    this.common.getData('product', params).subscribe(
       response => {
         this.showLoader = false;
-        this.bindingData(response);
+        this.bindingData(response['result'][0]);
       },
       error => {
         this.showLoader = false;
