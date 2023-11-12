@@ -37,6 +37,8 @@ export class AllPromotionComponent implements OnInit, AfterViewInit, AfterViewCh
   public hasPrevious = false;
   public allData: any = [];
 
+  public approvalStatus: string = 'disapprove';
+  public data: any = {};
   public settings: any = {};
 
   constructor(
@@ -88,7 +90,8 @@ export class AllPromotionComponent implements OnInit, AfterViewInit, AfterViewCh
     )
   }
 
-  showModal(e) {
+  showModal(e, data: any = {}) {
+    this.data = data;
     let modal = new bootstrap.Modal(e, {});
     modal.show();
   }
@@ -103,15 +106,37 @@ export class AllPromotionComponent implements OnInit, AfterViewInit, AfterViewCh
     this.common.createData('promotion/settings', data).subscribe(
       response => {
         this.showLoader = false;
+        let notifStatus = response['status'] == 200 ? 'success' : 'error';
+        this.notif.notify(response['message'], notifStatus);
+      },
+      error => {
+        this.showLoader = false;
+        this.notif.error('Unable to update settings.');
+      }
+    )
+  }
+
+  payoutApproval() {
+    this.showLoader = true;
+    let data = {
+      status: this.approvalStatus == 'approve' ? 'Approved' : 'Disapproved'
+    };
+
+    this.common.updateData('promotion/payout',this.data.payout_id, data).subscribe(
+      response => {
+        this.showLoader = false;
         if (response['status'] == 200) {
           this.notif.success(response['message'] || '');
+          this.data['is_payout'] = false;
+          this.data['total_payout'] += this.data.payout_amount || 0;
+          this.data['payout_amount'] = 0;
         } else {
           this.notif.error(response['message'] || '');
         }
       },
       error => {
         this.showLoader = false;
-        this.notif.error('Unable to update settings.');
+        this.notif.error('Unable to update withdrawal.');
       }
     )
   }

@@ -26,6 +26,7 @@
             <th >Code</th>
             <th >Balance</th>
             <th >Total Payout</th>
+            <th >Address</th>
             <th class="text-center">Withdrawal Request</th>
           </tr>
         </thead>
@@ -44,6 +45,22 @@
               {{data.total_payout || 0}}
             </td>
             <td >
+              {{data.address}}
+            </td>
+            <td align="center">
+              <div *ngIf="data.payout_amount > 0">
+                <p class="small">
+                  Amount: {{data.payout_amount || 0}}
+                </p>
+                <button type="button" class="btn btn-sm btn-success"
+                (click)="approvalStatus = 'approve'; showModal(confirm, data)">
+                  Approve
+                </button>
+                <button type="button" class="btn btn-sm btn-danger ms-1"
+                    (click)="approvalStatus = 'disapprove'; showModal(confirm, data)">
+                  Disapprove
+                </button>
+              </div>
             </td>
           </tr>
           <tr *ngIf="allData.length == 0">
@@ -82,6 +99,30 @@
           <button type="button" class="btn btn-sm btn-success"
               (click)="updateSettings()" data-bs-dismiss="modal">
             Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div #confirm id="confirm" class="modal fade" tabindex="-1"
+      role="dialog" aria-labelledby="confirm" aria-hidden="true"
+      data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          Confirmation
+        </div>
+        <div class="modal-body">
+          Are you sure you want to {{approvalStatus}} this request?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-success"
+              (click)="payoutApproval()" data-bs-dismiss="modal">
+            Yes
+          </button>
+          <button type="button" class="btn btn-sm btn-danger"
+              data-bs-dismiss="modal">
+            No
           </button>
         </div>
       </div>
