@@ -127,6 +127,7 @@ export class AllPromotionComponent implements OnInit, AfterViewInit, AfterViewCh
         if (response['status'] == 200) {
           this.notif.success(response['message'] || '');
           this.data['is_payout'] = false;
+          this.data['balance'] -= this.data.payout_amount || 0;
           this.data['total_payout'] += this.data.payout_amount || 0;
           this.data['payout_amount'] = 0;
         } else {
