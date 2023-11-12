@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoryComponent } from './category/category.component';
 import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
+import { PromotionComponent } from './promotion/promotion.component';
 import { RedeemableCategoryComponent } from './redeemable-category/redeemable-category.component';
 import { RedeemableProductComponent } from './redeemable-product/redeemable-product.component';
+import { RedeemableTransactionComponent } from './redeemable-transaction/redeemable-transaction.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { BotComponent } from './bot/bot.component';
 import { UserComponent } from './user/user.component';
@@ -45,6 +47,15 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'promotion',
+    component: PromotionComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./promotion/promotion.module').then(
+        (module) => module.PromotionModule
+      ),
+  },
+  {
     path: 'redeemable-category',
     component: RedeemableCategoryComponent,
     // canActivate: [AuthGuard],
@@ -60,6 +71,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./redeemable-product/redeemable-product.module').then(
         (module) => module.RedeemableProductModule
+      ),
+  },
+  {
+    path: 'redeemable-transaction',
+    component: RedeemableTransactionComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./redeemable-transaction/redeemable-transaction.module').then(
+        (module) => module.RedeemableTransactionModule
       ),
   },
   {

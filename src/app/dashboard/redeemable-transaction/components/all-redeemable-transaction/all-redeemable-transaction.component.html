@@ -8,7 +8,7 @@
 </div>
 <!--  END LOADER -->
 <div class="layout-boxed layout-px-spacing">
-  <h1 class="layout-top-spacing">Order</h1>
+  <h1 class="layout-top-spacing">Redeemed Order</h1>
   <div class="row mt-2">
     <div class="col-12">
       <table class="table table-hover table-bordered">
@@ -16,35 +16,27 @@
           <tr >
             <th >Date</th>
             <th >User ID</th>
-            <th >Track ID</th>
             <th >Product</th>
-            <th >Amount</th>
+            <th >Points</th>
             <th >Quantity</th>
-            <th >Status</th>
           </tr>
         </thead>
         <tbody >
           <tr *ngFor="let data of allData">
             <td >
-              {{data.createdAt ? (data.createdAt * 1000 | date) : ''}}
+              {{data.date_created ? (data.date_created * 1000 | date) : ''}}
             </td>
             <td >
               {{data.user_id}}
             </td>
             <td >
-              {{data.trackId}}
-            </td>
-            <td >
               {{data.product_name}}
             </td>
             <td >
-              {{data.amount || 0}}
+              {{data.points || 0}}
             </td>
             <td >
               {{data.quantity || 0}}
-            </td>
-            <td >
-              {{data.status}}
             </td>
           </tr>
           <tr *ngIf="allData.length == 0">

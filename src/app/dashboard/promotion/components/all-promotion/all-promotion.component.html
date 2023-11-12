@@ -1,0 +1,90 @@
+<!-- BEGIN LOADER -->
+<div id="load_screen" *ngIf="showLoader">
+  <div class="loader">
+    <div class="loader-content">
+      <div class="spinner-grow align-self-center"></div>
+    </div>
+  </div>
+</div>
+<!--  END LOADER -->
+<div class="layout-boxed layout-px-spacing">
+  <h1 class="layout-top-spacing">Promotion</h1>
+  <div class="row">
+    <div class="col-12 text-end">
+      <button type="button" class="btn btn-primary"
+          (click)="showModal(modalSettings)">
+        Settings
+      </button>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-12">
+      <table class="table table-hover table-bordered">
+        <thead >
+          <tr >
+            <th >User ID</th>
+            <th >Code</th>
+            <th >Balance</th>
+            <th >Total Payout</th>
+            <th class="text-center">Withdrawal Request</th>
+          </tr>
+        </thead>
+        <tbody >
+          <tr *ngFor="let data of allData">
+            <td >
+              {{data.user_id}}
+            </td>
+            <td >
+              {{data.code}}
+            </td>
+            <td >
+              {{data.balance || 0}}
+            </td>
+            <td >
+              {{data.total_payout || 0}}
+            </td>
+            <td >
+            </td>
+          </tr>
+          <tr *ngIf="allData.length == 0">
+            <td colspan="100">
+              No available data
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div #modalSettings id="modalSettings" class="modal fade" tabindex="-1"
+      role="dialog" aria-labelledby="modalSettings" aria-hidden="true"
+      data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 >Settings</h6>
+          <button class="btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 mb-3">
+              <small >Promo Percentage</small>
+              <input id="percentage" type="number"
+                  class="form-control" [value]="settings.percentage || ''">
+            </div>
+            <div class="col-12">
+              <small >Promo Instructions</small>
+              <textarea id="instructions" rows="5" class="form-control"
+                  [value]="settings.instructions || ''"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-success"
+              (click)="updateSettings()" data-bs-dismiss="modal">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
