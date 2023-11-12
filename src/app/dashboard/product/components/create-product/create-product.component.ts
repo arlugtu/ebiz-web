@@ -48,11 +48,6 @@ export class CreateProductComponent implements OnInit {
       subcategory_id: new FormControl(''),
       subcategory_name: new FormControl('', Validators.required),
     });
-    if (this.activateRouter.snapshot.queryParams['update']) {
-      let docId = this.activateRouter.snapshot.queryParams['id'];
-      let doc: any = JSON.parse(localStorage.getItem(docId));
-      this.bindingData(docId);
-    }
 
     this.formGroup.controls['category_id'].valueChanges.subscribe((event) => {
       this.getSubcategory(event);
@@ -138,12 +133,6 @@ export class CreateProductComponent implements OnInit {
         this.notif.error('Unable to create product.');
       }
     );
-  }
-
-  bindingData(data) {
-    Object.keys(this.formGroup.controls).forEach((key) => {
-      this.formGroup.get(key).setValue(data[key]);
-    })
   }
 
 }

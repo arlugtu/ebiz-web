@@ -54,7 +54,6 @@ export class AllRedeemableProductComponent implements OnInit, AfterViewInit, Aft
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -67,6 +66,7 @@ export class AllRedeemableProductComponent implements OnInit, AfterViewInit, Aft
   }
 
   getData() {
+    this.showLoader = true;
     this.common.getData('redeemable-product').subscribe(
       response => {
         this.showLoader = false;

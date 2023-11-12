@@ -35,11 +35,6 @@ export class CreateCategoryComponent implements OnInit {
       category_name: new FormControl('', Validators.required),
       subcategory: [],
     });
-    if (this.activateRouter.snapshot.queryParams['update']) {
-      let docId = this.activateRouter.snapshot.queryParams['id'];
-      let doc: any = JSON.parse(localStorage.getItem(docId));
-      this.bindingData(docId);
-    }
   }
 
   createData() {
@@ -58,12 +53,6 @@ export class CreateCategoryComponent implements OnInit {
         this.notif.error('Unable to create category.');
       }
     );
-  }
-
-  bindingData(data) {
-    Object.keys(this.formGroup.controls).forEach((key) => {
-      this.formGroup.get(key).setValue(data[key]);
-    })
   }
 
 }

@@ -43,11 +43,6 @@ export class CreateRedeemableProductComponent implements OnInit {
       product_id: new FormControl(''),
       product_name: new FormControl('', Validators.required),
     });
-    if (this.activateRouter.snapshot.queryParams['update']) {
-      let docId = this.activateRouter.snapshot.queryParams['id'];
-      let doc: any = JSON.parse(localStorage.getItem(docId));
-      this.bindingData(docId);
-    }
 
     this.formGroup.controls['category_id'].valueChanges.subscribe((event) => {
       this.setCategory(event);
@@ -101,12 +96,6 @@ export class CreateRedeemableProductComponent implements OnInit {
         this.notif.error('Unable to create product.');
       }
     );
-  }
-
-  bindingData(data) {
-    Object.keys(this.formGroup.controls).forEach((key) => {
-      this.formGroup.get(key).setValue(data[key]);
-    })
   }
 
 }

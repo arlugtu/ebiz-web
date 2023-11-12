@@ -52,7 +52,6 @@ export class AllPromotionComponent implements OnInit, AfterViewInit, AfterViewCh
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -65,7 +64,7 @@ export class AllPromotionComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   getData() {
-    this.showLoader = false;
+    this.showLoader = true;
     this.common.getData('promotion').subscribe(
       response => {
         this.getSettings();

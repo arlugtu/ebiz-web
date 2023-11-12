@@ -57,7 +57,6 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -70,6 +69,7 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   getData() {
+    this.showLoader = true;
     this.common.getData('product').subscribe(
       response => {
         this.showLoader = false;

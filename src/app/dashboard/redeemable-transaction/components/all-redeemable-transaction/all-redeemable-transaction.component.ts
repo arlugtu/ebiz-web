@@ -45,7 +45,6 @@ export class AllRedeemableTransactionComponent implements OnInit, AfterViewInit,
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -58,7 +57,7 @@ export class AllRedeemableTransactionComponent implements OnInit, AfterViewInit,
   }
 
   getData() {
-    this.showLoader = false;
+    this.showLoader = true;
     this.common.getData('redeemable-transaction').subscribe(
       response => {
         this.showLoader = false;

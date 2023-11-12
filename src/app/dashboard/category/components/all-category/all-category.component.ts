@@ -42,7 +42,6 @@ export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChe
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -55,7 +54,7 @@ export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChe
   }
 
   getData() {
-    this.showLoader = false;
+    this.showLoader = true;
     this.common.getData('category').subscribe(
       response => {
         this.showLoader = false;
@@ -86,6 +85,7 @@ export class AllCategoryComponent implements OnInit, AfterViewInit, AfterViewChe
   }
 
   addSubcategory(data) {
+    this.showLoader = true;
     let subcategory = document.getElementById(`subcategory-${data.category_id}`);
     let _data = {
       category_id: data.category_id,

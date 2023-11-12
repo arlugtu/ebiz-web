@@ -45,7 +45,6 @@ export class AllTransactionComponent implements OnInit, AfterViewInit, AfterView
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -58,7 +57,7 @@ export class AllTransactionComponent implements OnInit, AfterViewInit, AfterView
   }
 
   getData() {
-    this.showLoader = false;
+    this.showLoader = true;
     this.common.getData('transaction').subscribe(
       response => {
         this.showLoader = false;

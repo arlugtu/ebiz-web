@@ -42,7 +42,6 @@ export class AllRedeemableCategoryComponent implements OnInit, AfterViewInit, Af
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -55,7 +54,7 @@ export class AllRedeemableCategoryComponent implements OnInit, AfterViewInit, Af
   }
 
   getData() {
-    this.showLoader = false;
+    this.showLoader = true;
     this.common.getData('redeemable-category').subscribe(
       response => {
         this.showLoader = false;
