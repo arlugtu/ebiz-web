@@ -2,11 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CategoryComponent } from './category/category.component';
 import { HomeComponent } from './home/home.component';
+import { ProductComponent } from './product/product.component';
+import { PromotionComponent } from './promotion/promotion.component';
+import { RedeemableCategoryComponent } from './redeemable-category/redeemable-category.component';
+import { RedeemableProductComponent } from './redeemable-product/redeemable-product.component';
+import { RedeemableTransactionComponent } from './redeemable-transaction/redeemable-transaction.component';
+import { TransactionComponent } from './transaction/transaction.component';
 import { BotComponent } from './bot/bot.component';
 import { UserComponent } from './user/user.component';
 import { FinanceComponent } from './finance/finance.component';
 import { AuthGuard } from '../guard/auth-guard';
-import { ProductComponent } from './product/product.component';
 
 const routes: Routes = [
   {
@@ -30,6 +35,60 @@ const routes: Routes = [
     loadChildren: () =>
       import('./home/home.module').then(
         (module) => module.HomeModule
+      ),
+  },
+  {
+    path: 'product',
+    component: ProductComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./product/product.module').then(
+        (module) => module.ProductModule
+      ),
+  },
+  {
+    path: 'promotion',
+    component: PromotionComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./promotion/promotion.module').then(
+        (module) => module.PromotionModule
+      ),
+  },
+  {
+    path: 'redeemable-category',
+    component: RedeemableCategoryComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./redeemable-category/redeemable-category.module').then(
+        (module) => module.RedeemableCategoryModule
+      ),
+  },
+  {
+    path: 'redeemable-product',
+    component: RedeemableProductComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./redeemable-product/redeemable-product.module').then(
+        (module) => module.RedeemableProductModule
+      ),
+  },
+  {
+    path: 'redeemable-transaction',
+    component: RedeemableTransactionComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./redeemable-transaction/redeemable-transaction.module').then(
+        (module) => module.RedeemableTransactionModule
+      ),
+  },
+  {
+    path: 'transaction',
+    component: TransactionComponent,
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./transaction/transaction.module').then(
+        (module) => module.TransactionModule
       ),
   },
   {
@@ -57,15 +116,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./finance/finance.module').then(
         (module) => module.FinanceModule
-      ),
-  },
-  {
-    path: 'product',
-    component: ProductComponent,
-    // canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./product/product.module').then(
-        (module) => module.ProductModule
       ),
   }
 ];

@@ -1,0 +1,61 @@
+<!-- BEGIN LOADER -->
+<div id="load_screen" *ngIf="showLoader">
+  <div class="loader">
+    <div class="loader-content">
+      <div class="spinner-grow align-self-center"></div>
+    </div>
+  </div>
+</div>
+<!--  END LOADER -->
+<div class="row justify-content-center mt-5">
+  <div class="col-9">
+    <div class="card">
+      <div class="card-header">
+        <h2 >Create Product</h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formGroup">
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label">Product Name*</label>
+              <input type="text" class="form-control"
+                  formControlName="product_name">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label">Product Description*</label>
+              <input type="text" class="form-control "
+                  formControlName="description">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label">Category*</label>
+              <select class="form-control" formControlName="category_id">
+                <option *ngFor="let data of categories" value="{{data.category_id}}">
+                  {{data.category_name}}
+                </option>
+              </select>
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label">Points*</label>
+              <input type="number" class="form-control"
+                  formControlName="points">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-12 text-center">
+            <button href="javascript:void(0);" class="btn btn-success"
+                (click)="createData()" [disabled]="!this.formGroup.valid">
+              Save
+            </button>
+            <button href="javascript:void(0);" class="btn btn-danger ms-2"
+                (click)="common.back()">
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

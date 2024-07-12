@@ -4,6 +4,7 @@ import { ProductComponent } from './product.component';
 import { AllProductComponent } from './components/all-product/all-product.component';
 import { ProductRoutingModule } from './product-routing.module';
 import { CreateProductComponent } from './components/create-product/create-product.component';
+import { UpdateProductComponent } from './components/update-product/update-product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafePipe } from './pipe/safe.pipe';
 
@@ -14,6 +15,7 @@ import { SafePipe } from './pipe/safe.pipe';
     ProductComponent,
     AllProductComponent,
     CreateProductComponent,
+    UpdateProductComponent,
     SafePipe
   ],
   imports: [

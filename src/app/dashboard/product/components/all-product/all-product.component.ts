@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnInit, Inject, ElementRef, AfterViewChecked } from '@angular/core';
 import { ProductService } from '../../services/product.service';
+import { CommonService } from 'src/app/common/services/common.service';
+import { NotifService } from 'src/app/common/services/notif.service';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import Swal from 'sweetalert2';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import * as bootstrap from 'bootstrap';
@@ -24,7 +25,11 @@ export interface PRODUCT {
 @Component({
   selector: 'app-all-product',
   templateUrl: './all-product.component.html',
-  styleUrls: ['./all-product.component.scss']
+  styleUrls: [
+    './all-product.component.scss',
+    '../../../../common/styles/common.scss'
+  ],
+  providers: [CommonService, NotifService]
 })
 export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
@@ -44,13 +49,14 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   constructor(
     private router: Router,
     private service: ProductService,
+    public common: CommonService,
+    private notif: NotifService,
     @Inject(DOCUMENT) document: Document,
     private sanitizer: DomSanitizer,
     private elementRef: ElementRef
   ) { }
 
   ngOnInit(): void {
-    this.showLoader = true;
     this.getData();
   }
 
@@ -63,7 +69,8 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   getData() {
-    this.service.getData().subscribe(
+    this.showLoader = true;
+    this.common.getData('product').subscribe(
       response => {
         this.showLoader = false;
         this.allData = response['result'] || [];
@@ -76,39 +83,18 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
       },
       error => {
         this.showLoader = false;
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to get products. Please Try Again Later',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to get product.');
       }
     );
   }
 
-  toggleAccordion(id) {
-    let element = document.getElementById(id);
-    if (window.getComputedStyle(element).display == 'none') {
-      element.classList.remove('hide-accordion-body');
-      element.classList.add('show-accordion-body');
-    } else {
-      element.classList.add('hide-accordion-body');
-      element.classList.remove('show-accordion-body');
-    }
-  }
-
   deleteData(id) {
-    this.service.deleteData(id).subscribe(
+    this.common.deleteData('product', id).subscribe(
       response => {
         this.getData();
       },
       error => {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Failed to delete product.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Failed to delete product.');
       }
     )
   }
@@ -123,17 +109,16 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
   }
 
   getInventory(id=null) {
-    this.service.getInventoryByProductID(id).subscribe(
+    let params = {
+      product_id: id
+    };
+
+    this.common.getData('inventory', params).subscribe(
       response => {
-        this.inventories = response || [];
+        this.inventories = response['result'] || [];
       },
       error => {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to get inventory. Please try again later.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to get inventory.');
       }
     )
   }
@@ -153,78 +138,54 @@ export class AllProductComponent implements OnInit, AfterViewInit, AfterViewChec
       data.append('files', files[key]);
     })
 
-    this.service.uploadInventory(this.docId, data).subscribe(
+    this.common.uploadData('inventory/upload', this.docId, data).subscribe(
       response => {
         $('#fileUpload').val('');
         if (response['status'] == 200) {
-          this.doc['inventory'] = this.doc.inventory + files.length;
-          $(`#inventory-${this.docId}`).text(this.doc.inventory);
+          if (response['inventory'] != undefined) {
+            $(`#inventory-${this.docId}`).text(response['inventory'] || 0);
+          }
 
           this.getInventory(this.docId);
-          Swal.fire({
-            title: 'Success',
-            icon: 'success',
-            background: '#0e1726',
-          });
+          this.notif.success();
         } else {
-          Swal.fire({
-            title: 'Error!',
-            text: response['message'] || '',
-            icon: 'error',
-            background: '#0e1726',
-          });
+          this.notif.error(response['message'] || '');
         }
       },
       error => {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to upload inventory. Please try again later.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to upload inventory.');
       }
     )
   }
 
-  downloadFile(id) {
-    this.service.downloadInventory(id).subscribe(
+  downloadFile(id, filename) {
+    this.common.downloadData('inventory/download', id).subscribe(
       response => {
         let url = URL.createObjectURL(response);
         let a = document.createElement('a');
         a.href = url;
-        a.setAttribute('download', 'test.txt');
+        a.setAttribute('download', filename);
         a.click();
       },
       error => {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to download inventory. Please try again later.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to download inventory.');
       }
     )
   }
 
   deleteInventory(id) {
-    this.service.deleteInventory(id).subscribe(
+    this.common.deleteData('inventory', id).subscribe(
       response => {
         this.inventories = this.inventories.filter((object) => {
           return object.inventory_id != id;
         })
 
-        if (response) {
-          this.doc['inventory'] = this.doc.inventory - 1;
-          $(`#inventory-${this.docId}`).text(this.doc.inventory);
+        if (response['status'] == 200 && response['inventory'] != undefined) {
+          $(`#inventory-${this.docId}`).text(response['inventory']);
         }
       },
       error => {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Failed to delete inventory.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Failed to delete inventory.');
       }
     )
   }

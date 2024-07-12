@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
-import { CategoryService } from '../../../category/services/category.service';
-import Swal from 'sweetalert2';
+import { CommonService } from 'src/app/common/services/common.service';
+import { NotifService } from 'src/app/common/services/notif.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.scss']
+  styleUrls: [
+    './create-product.component.scss',
+    '../../../../common/styles/common.scss'
+  ],
+  providers: [CommonService, NotifService]
 })
 export class CreateProductComponent implements OnInit {
 
@@ -24,7 +28,8 @@ export class CreateProductComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private service: ProductService,
-    private categoryService: CategoryService,
+    public common: CommonService,
+    private notif: NotifService,
     private activateRouter: ActivatedRoute,
     private router: Router
   ) { }
@@ -43,11 +48,6 @@ export class CreateProductComponent implements OnInit {
       subcategory_id: new FormControl(''),
       subcategory_name: new FormControl('', Validators.required),
     });
-    if (this.activateRouter.snapshot.queryParams['update']) {
-      let docId = this.activateRouter.snapshot.queryParams['id'];
-      let doc: any = JSON.parse(localStorage.getItem(docId));
-      this.bindingData(docId);
-    }
 
     this.formGroup.controls['category_id'].valueChanges.subscribe((event) => {
       this.getSubcategory(event);
@@ -61,7 +61,7 @@ export class CreateProductComponent implements OnInit {
 
   getCategory() {
     this.showLoader = true;
-    this.categoryService.getData().subscribe(
+    this.common.getData('category').subscribe(
       response => {
         this.showLoader = false;
         this.categories = response['result'] || [];
@@ -75,12 +75,7 @@ export class CreateProductComponent implements OnInit {
       },
       error => {
         this.showLoader = false;
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to get category. Please try again later.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to get category.');
       }
     )
   }
@@ -91,9 +86,13 @@ export class CreateProductComponent implements OnInit {
       this.formGroup.get('category_name').setValue(category.category_name);
     }
 
-    this.categoryService.getSubcategoryByCategoryID(id).subscribe(
+    let params = {
+      category_id: id
+    };
+
+    this.common.getData('subcategory', params).subscribe(
       response => {
-        this.subcategories = response || [];
+        this.subcategories = response['result'] || [];
         this.subcategories.forEach((object) => {
           this.subcategoriesJson[object.subcategory_id] = object;
         })
@@ -105,12 +104,7 @@ export class CreateProductComponent implements OnInit {
         }
       },
       error => {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to get subcategory. Please try again later.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to get subcategory.');
       }
     )
   }
@@ -128,36 +122,17 @@ export class CreateProductComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.service.createData(this.formGroup.value).subscribe(
+    this.common.createData('product', this.formGroup.value).subscribe(
       response => {
         this.showLoader = false;
-        this.back();
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          background: '#0e1726',
-        });
+        this.common.back();
+        this.notif.success();
       },
       error => {
         this.showLoader = false;
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to create product. Please try again later.',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to create product.');
       }
     );
-  }
-
-  bindingData(data) {
-    Object.keys(this.formGroup.controls).forEach((key) => {
-      this.formGroup.get(key).setValue(data[key]);
-    })
-  }
-
-  back() {
-    window.history.back();
   }
 
 }

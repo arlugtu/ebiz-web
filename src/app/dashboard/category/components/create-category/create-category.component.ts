@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
-import Swal from 'sweetalert2';
+import { CommonService } from 'src/app/common/services/common.service';
+import { NotifService } from 'src/app/common/services/notif.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-category',
   templateUrl: './create-category.component.html',
-  styleUrls: ['./create-category.component.scss']
+  styleUrls: [
+    './create-category.component.scss',
+    '../../../../common/styles/common.scss'
+  ],
+  providers: [CommonService, NotifService]
 })
 export class CreateCategoryComponent implements OnInit {
 
@@ -18,6 +23,8 @@ export class CreateCategoryComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private service: CategoryService,
+    public common: CommonService,
+    private notif: NotifService,
     private activateRouter: ActivatedRoute,
     private router: Router
   ) { }
@@ -28,11 +35,6 @@ export class CreateCategoryComponent implements OnInit {
       category_name: new FormControl('', Validators.required),
       subcategory: [],
     });
-    if (this.activateRouter.snapshot.queryParams['update']) {
-      let docId = this.activateRouter.snapshot.queryParams['id'];
-      let doc: any = JSON.parse(localStorage.getItem(docId));
-      this.bindingData(docId);
-    }
   }
 
   createData() {
@@ -41,35 +43,16 @@ export class CreateCategoryComponent implements OnInit {
     }
 
     this.showLoader = true;
-    this.service.createData(this.formGroup.value).subscribe(
+    this.common.createData('category', this.formGroup.value).subscribe(
       response => {
         this.showLoader = false;
-        this.back();
-        Swal.fire({
-          title: 'Success',
-          icon: 'success',
-          background: '#0e1726',
-        });
+        this.common.back();
+        this.notif.success();
       }, error => {
         this.showLoader = false;
-        Swal.fire({
-          title: 'Error!',
-          text: 'Unable to create category. Please try again later',
-          icon: 'error',
-          background: '#0e1726',
-        });
+        this.notif.error('Unable to create category.');
       }
     );
-  }
-
-  bindingData(data) {
-    Object.keys(this.formGroup.controls).forEach((key) => {
-      this.formGroup.get(key).setValue(data[key]);
-    })
-  }
-
-  back() {
-    window.history.back();
   }
 
 }
